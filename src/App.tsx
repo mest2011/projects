@@ -106,7 +106,7 @@ function App() {
   const getWeather = () => {
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?id=3458449&lang=pt_br&appid=${ApiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?id=3458449&lang=pt_br&appid=${process.env.REACT_APP_WEATHER_API_KEY}&units=metric`
       )
       .then((value) => setWeather(value.data));
   };
