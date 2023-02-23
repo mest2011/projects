@@ -6,6 +6,7 @@ import {
   HomeTwoTone,
   ReplayTwoTone,
   TextRotationNoneTwoTone,
+  Thermostat,
   TimerTwoTone,
   WatchLaterTwoTone,
 } from "@mui/icons-material";
@@ -13,17 +14,20 @@ import { Box, Button, Link, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Cookies from "js-cookie";
+import { WiCelsius } from "react-icons/wi";
+import axios from "axios";
+import { WeatherData, WeatherIcon } from "./model";
 
 const dayjs = require("dayjs");
 
 const days = [
+  "Domingo",
   "Segunda-feira",
   "Terça-feira",
   "Quarta-feira",
   "Quinta-feira",
   "Sexta-feira",
   "Sábado",
-  "Domingo",
 ];
 
 const months = [
@@ -77,6 +81,9 @@ function App() {
   const [showControls, setShowControls] = useState<boolean>(
     Cookies.get("showControls") === "true"
   );
+  const [showWeather, setShowWeather] = useState<boolean>(
+    Cookies.get("showWeather") === "true"
+  );
 
   const [font, setFont] = useState<string>(Cookies.get("font") || fonts[0]);
 
@@ -90,6 +97,19 @@ function App() {
   const [minute, setMinute] = useState<string>();
   const [second, setSecond] = useState<string>();
   const [millisecond, setMillisecond] = useState<string>();
+  const [weather, setWeather] = useState<WeatherData>();
+
+  useEffect(() => {
+    getWeather();
+  }, []);
+
+  const getWeather = () => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?id=3458449&lang=pt_br&appid=${ApiKey}&units=metric`
+      )
+      .then((value) => setWeather(value.data));
+  };
 
   useEffect(() => {
     Cookies.set("showMilli", showMilli ? "true" : "false");
@@ -97,6 +117,7 @@ function App() {
     Cookies.set("showDate", showDate ? "true" : "false");
     Cookies.set("showDateTimeStamp", showDateTimeStamp ? "true" : "false");
     Cookies.set("showControls", showControls ? "true" : "false");
+    Cookies.set("showWeather", showWeather ? "true" : "false");
 
     Cookies.set("font", font);
   }, [showMilli, showSecond, showDate, showControls, font, showDateTimeStamp]);
@@ -120,6 +141,10 @@ function App() {
     setInterval(() => {
       getTime();
     }, 10);
+
+    setInterval(() => {
+      if (showWeather) getWeather();
+    }, 1000 * 60 * 15);
   }, []);
 
   const getDayWeekPortuguese = (numberOfDay: number) => {
@@ -218,6 +243,23 @@ function App() {
               <></>
             )}
           </Typography>
+          {showWeather ? (
+            <Typography
+              style={{
+                color: "#FEFEFE",
+                textAlign: "end",
+                fontSize: "2vw",
+                fontFamily: `${font}, "sans-serif"`,
+              }}
+            >
+              {`${weather?.name} - `}
+              {Math.floor(weather?.main?.temp || 0)}
+              <WiCelsius />
+              {WeatherIcon[weather?.weather[0]?.icon || "000"]}
+            </Typography>
+          ) : (
+            <></>
+          )}
           {showDate ? (
             <Typography
               onClick={() => setShowDateTimeStamp(!showDateTimeStamp)}
@@ -256,6 +298,9 @@ function App() {
         </Button>
         <Button onClick={() => handleFont(true)} variant="outlined">
           <TextRotationNoneTwoTone />
+        </Button>
+        <Button onClick={() => setShowWeather(!showWeather)} variant="outlined">
+          <Thermostat />
         </Button>
         <Button onClick={() => setShowDate(!showDate)} variant="outlined">
           <CalendarTodayTwoTone />
