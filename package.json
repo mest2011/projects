@@ -23,13 +23,16 @@
     "react-dom": "^18.2.0",
     "react-full-screen": "^1.1.1",
     "react-icons": "^4.7.1",
+    "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.6",
+    "toastr": "^2.1.4",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "react-scripts start dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -53,6 +56,7 @@
     ]
   },
   "devDependencies": {
-    "@types/js-cookie": "^3.0.2"
+    "@types/js-cookie": "^3.0.2",
+    "@types/toastr": "^2.1.40"
   }
 }

@@ -16,7 +16,10 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Cookies from "js-cookie";
 import { WiCelsius } from "react-icons/wi";
 import axios from "axios";
-import { WeatherData, WeatherIcon } from "./model";
+import {
+  WeatherData,
+  WeatherIcon,
+} from "../../domain/clock/entities/clock_entity";
 
 const dayjs = require("dayjs");
 
@@ -65,7 +68,7 @@ const fonts = [
   "sans-serif",
 ];
 
-function App() {
+export const Clock: React.FC = () => {
   const [showMilli, setShowMilli] = useState<boolean>(
     Cookies.get("showMilli") === "true"
   );
@@ -157,16 +160,19 @@ function App() {
 
   const handleFont = (next: boolean) => {
     if (next) {
-      if (fonts.length === fonts.indexOf(font)) {
+      if (fonts.length -1 === fonts.indexOf(font)) {
         setFont(fonts[0]);
+      } else {
+        setFont(fonts[fonts.indexOf(font) + 1]);
       }
-      setFont(fonts[fonts.indexOf(font) + 1]);
     } else {
       if (fonts.indexOf(font) === 0) {
         setFont(fonts[fonts.length - 1]);
+      } else {
+        setFont(fonts[fonts.indexOf(font) - 1]);
       }
-      setFont(fonts[fonts.indexOf(font) - 1]);
     }
+    console.log(`Fonte atual: ${font}, ${fonts.indexOf(font)}`);
   };
 
   const handleFullScreen = (fullScreen: boolean) => {
@@ -214,7 +220,7 @@ function App() {
               fontSize: "26vw",
               fontWeight: 600,
               lineHeight: "1",
-              fontFamily: `${font}, "sans-serif"`,
+              fontFamily: `${font}`,
               color: "#FEFEFE",
               textAlign: showSecond || showMilli ? "start" : "center",
             }}
@@ -249,7 +255,7 @@ function App() {
                 color: "#FEFEFE",
                 textAlign: "end",
                 fontSize: "2vw",
-                fontFamily: `${font}, "sans-serif"`,
+                fontFamily: `${font}`,
               }}
             >
               {`${weather?.name} - `}
@@ -267,7 +273,7 @@ function App() {
                 color: "#FEFEFE",
                 textAlign: "end",
                 fontSize: "2vw",
-                fontFamily: `${font}, "sans-serif"`,
+                fontFamily: `${font}`,
               }}
             >
               {showDateTimeStamp
@@ -320,6 +326,4 @@ function App() {
       </Box>
     </FullScreen>
   );
-}
-
-export default App;
+};
