@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { Clock } from './pages/clock';
 import { Ip } from './pages/ip';
+import { UrlShortener } from './pages/url-shortener';
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/ip",
     element: <Ip />,
+  },
+  {
+    path: "/url",
+    element: <UrlShortener />,
   },
 ]);
 
