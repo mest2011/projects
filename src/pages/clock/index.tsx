@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Cookies from "js-cookie";
 import axios from "axios";
-<<<<<<< HEAD:src/App.tsx
 import { days, months } from "./constants/calendary";
 import { fonts } from "./constants/fonts";
 import { DateAtom } from "./components/atoms/dateAtom";
@@ -12,18 +11,12 @@ import { WeatherAtom } from "./components/atoms/weatherAtom ";
 import { WeatherData, WeatherIcon } from "./constants/model";
 import { UpperMenuButtonsMolecule } from "./components/molecules/upperMenuButtonsMolecule";
 import { LowerMenuButtonsMolecule } from "./components/molecules/lowerMenuButtonsMolecule";
-=======
-import {
-  WeatherData,
-  WeatherIcon,
-} from "../../domain/clock/entities/clock_entity";
->>>>>>> bc141aee0bdc5e3c7f8a4b8d70ec41601d0b663c:src/pages/clock/index.tsx
 
 const dayjs = require("dayjs");
 
 let ticks = 0;
 
-export const Clock: React.FC = () => {
+function App() {
   const [showMilli, setShowMilli] = useState<boolean>(
     Cookies.get("showMilli") === "true"
   );
@@ -136,19 +129,16 @@ export const Clock: React.FC = () => {
 
   const handleFont = (next: boolean) => {
     if (next) {
-      if (fonts.length -1 === fonts.indexOf(font)) {
+      if (fonts.length === fonts.indexOf(font)) {
         setFont(fonts[0]);
-      } else {
-        setFont(fonts[fonts.indexOf(font) + 1]);
       }
+      setFont(fonts[fonts.indexOf(font) + 1]);
     } else {
       if (fonts.indexOf(font) === 0) {
         setFont(fonts[fonts.length - 1]);
-      } else {
-        setFont(fonts[fonts.indexOf(font) - 1]);
       }
+      setFont(fonts[fonts.indexOf(font) - 1]);
     }
-    console.log(`Fonte atual: ${font}, ${fonts.indexOf(font)}`);
   };
 
   const handleFullScreen = (fullScreen: boolean) => {
@@ -177,17 +167,8 @@ export const Clock: React.FC = () => {
         >
           <Box
             style={{
-<<<<<<< HEAD:src/App.tsx
               width: showSecond || showMilli ? "93%" : "auto",
               margin: "auto",
-=======
-              fontSize: "26vw",
-              fontWeight: 600,
-              lineHeight: "1",
-              fontFamily: `${font}`,
-              color: "#FEFEFE",
-              textAlign: showSecond || showMilli ? "start" : "center",
->>>>>>> bc141aee0bdc5e3c7f8a4b8d70ec41601d0b663c:src/pages/clock/index.tsx
             }}
           >
             <Typography
@@ -261,45 +242,7 @@ export const Clock: React.FC = () => {
             ) : (
               <></>
             )}
-<<<<<<< HEAD:src/App.tsx
           </Box>
-=======
-          </Typography>
-          {showWeather ? (
-            <Typography
-              style={{
-                color: "#FEFEFE",
-                textAlign: "end",
-                fontSize: "2vw",
-                fontFamily: `${font}`,
-              }}
-            >
-              {`${weather?.name} - `}
-              {Math.floor(weather?.main?.temp || 0)}
-              <WiCelsius />
-              {WeatherIcon[weather?.weather[0]?.icon || "000"]}
-            </Typography>
-          ) : (
-            <></>
-          )}
-          {showDate ? (
-            <Typography
-              onClick={() => setShowDateTimeStamp(!showDateTimeStamp)}
-              style={{
-                color: "#FEFEFE",
-                textAlign: "end",
-                fontSize: "2vw",
-                fontFamily: `${font}`,
-              }}
-            >
-              {showDateTimeStamp
-                ? `${day}/${month}/${year}`
-                : `${dayOfWeek}, ${day} de ${monthWord} de ${year}`}
-            </Typography>
-          ) : (
-            <></>
-          )}
->>>>>>> bc141aee0bdc5e3c7f8a4b8d70ec41601d0b663c:src/pages/clock/index.tsx
         </Box>
         <LowerMenuButtonsMolecule
           handleBeforeFont={() => handleFont(false)}
@@ -315,4 +258,6 @@ export const Clock: React.FC = () => {
       </FullScreen>
     </span>
   );
-};
+}
+
+export default App;
